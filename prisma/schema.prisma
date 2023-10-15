@@ -10,8 +10,8 @@ datasource db {
 model Product {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   desc          String
-  discountPrice Float
-  discountRate  Float
+  discountPrice Float?
+  discountRate  Float?
   images        String[]
   name          String
   price         Float

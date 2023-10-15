@@ -5,12 +5,12 @@ type Props = {
 }
 
 export default function Product({ product }: Props) {
-    const { id, name, image, price, discountPrice, discountRate } = product
+    const { id, name, images, price, discountPrice, discountRate } = product
   return (
     <div className="group my-10 mx-2 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
         <Link className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="#">
-            <img className="peer absolute top-0 right-0 h-full w-full object-cover" src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b" alt="product image" />
-            <img className="peer absolute top-0 -right-96 h-full w-full object-cover transition-all delay-100 duration-1000 hover:right-0 peer-hover:right-0" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="product image" />
+            <img className="peer absolute top-0 right-0 h-full w-full object-cover" src={images[0]} alt="product image" />
+            { images[1] && (<img className="peer absolute top-0 -right-96 h-full w-full object-cover transition-all delay-100 duration-1000 hover:right-0 peer-hover:right-0" src={images[1]} alt="product image" />) }
              <div className="absolute  bottom-0 mb-4 flex space-x-4 w-full justify-center">
             <div className="rounded-full h-3 w-3 bg-gray-200 border-2 border-white"></div> 
             <div className="rounded-full h-3 w-3 bg-gray-200 border-2 border-white"></div>
@@ -25,8 +25,8 @@ export default function Product({ product }: Props) {
             </Link>
             <div className="mt-2 mb-5 flex items-center justify-between">
             <p>
-                <span className="text-3xl font-bold text-slate-900">${price}</span>
-                { discountPrice && (<span className="text-sm text-slate-900 line-through">${discountPrice}</span>) }
+                <span className="text-3xl font-bold text-slate-900">${discountPrice ? discountPrice : price}</span>
+                { discountPrice && (<span className="text-sm text-slate-900 line-through">${price}</span>) }
             </p>
             </div>
             <Link href="#" className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">

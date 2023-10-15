@@ -1,28 +1,25 @@
 import Image from 'next/image'
 import Product from './components/Product'
 import Hero from './components/Hero'
+import { prisma } from '@/lib/db/prisma'
 
-export default function Home() {
+export default async function Home() {
+  const products = await prisma.product.findMany({
+    orderBy: {id: "desc"}
+  })
+
   return (
     <>
       <Hero />
       <div className="flex flex-row">
-      <Product product={{
-          id: 1,
-          name: "Nike Air MX Super 2500 - Red",
-          image: "",
-          price: 100,
-          discountPrice: 50,
-          discountRate: 50
-        }}
-      />
-      <Product product={{
-          id: 1,
-          name: "Just for test",
-          image: "",
-          price: 100,
-        }}
-      />
+      { 
+        products.map(product => (
+                <Product 
+                  key={product.id}
+                  product={product}
+              />
+        )) 
+      }
       </div>
     </>
   )
