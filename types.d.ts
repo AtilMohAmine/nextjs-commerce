@@ -5,4 +5,5 @@ type Product = {
     price: number,
     discountPrice?: number,
     discountRate?: number,
+    type: string,
 }

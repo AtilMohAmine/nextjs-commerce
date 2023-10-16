@@ -15,7 +15,14 @@ model Product {
   images        String[]
   name          String
   price         Float
-  type          String
+  type          String   @db.ObjectId
 
   @@map("products")
+}
+
+model productType {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  @@map("productTypes")
 }

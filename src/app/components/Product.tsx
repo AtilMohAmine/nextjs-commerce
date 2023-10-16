@@ -7,7 +7,7 @@ type Props = {
 export default function Product({ product }: Props) {
     const { id, name, images, price, discountPrice, discountRate } = product
   return (
-    <div className="group my-10 mx-2 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+    <div className="flex-none group my-10 mx-2 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
         <Link className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="#">
             <img className="peer absolute top-0 right-0 h-full w-full object-cover" src={images[0]} alt="product image" />
             { images[1] && (<img className="peer absolute top-0 -right-96 h-full w-full object-cover transition-all delay-100 duration-1000 hover:right-0 peer-hover:right-0" src={images[1]} alt="product image" />) }
