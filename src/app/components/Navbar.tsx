@@ -6,7 +6,7 @@ export default function Navbar() {
         <div className="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
             <div className="flex justify-between items-center">
             <div className="md:mx-6">
-                <Link className="text-gray-800 text-xl font-bold md:text-2xl hover:text-gray-700" href="#">Brand</Link>
+                <Link className="text-gray-800 text-xl font-bold md:text-2xl hover:text-gray-700" href="/">Brand</Link>
             </div>
 
             <div className="flex md:hidden">

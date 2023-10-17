@@ -8,7 +8,7 @@ export default function Product({ product }: Props) {
     const { id, name, images, price, discountPrice, discountRate } = product
   return (
     <div className="flex-none group my-10 mx-2 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-        <Link className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="#">
+        <Link className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href={`/products/${id}`}>
             <img className="peer absolute top-0 right-0 h-full w-full object-cover" src={images[0]} alt="product image" />
             { images[1] && (<img className="peer absolute top-0 -right-96 h-full w-full object-cover transition-all delay-100 duration-1000 hover:right-0 peer-hover:right-0" src={images[1]} alt="product image" />) }
              <div className="absolute  bottom-0 mb-4 flex space-x-4 w-full justify-center">
@@ -20,7 +20,7 @@ export default function Product({ product }: Props) {
              { discountRate && (<span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">{discountRate}% OFF</span>) } 
         </Link>
         <div className="mt-4 px-5 pb-5">
-            <Link href="#">
+            <Link href={`/products/${id}`}>
             <h5 className="text-xl tracking-tight text-slate-900">{name}</h5>
             </Link>
             <div className="mt-2 mb-5 flex items-center justify-between">
