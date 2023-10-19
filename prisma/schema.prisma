@@ -16,8 +16,33 @@ model Product {
   name          String
   price         Float
   type          String   @db.ObjectId
+  colors        String[]
+  sizes         String[]
+  CartItem      CartItem[]
 
   @@map("products")
+}
+
+model Cart {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  items         CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId     String   @db.ObjectId
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity      Int
+  color         String?
+  size          String?
+  cartId        String   @db.ObjectId
+  cart          Cart     @relation(fields: [cartId], references: [id])
+
+  @@map("cartitems")
 }
 
 model productType {
