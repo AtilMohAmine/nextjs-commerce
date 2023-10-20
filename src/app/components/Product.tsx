@@ -1,10 +1,11 @@
+import { Product } from "@prisma/client"
 import Link from "next/link"
 
 type Props = {
     product: Product
 }
 
-export default function Product({ product }: Props) {
+export default function ProductCard({ product }: Props) {
     const { id, name, images, price, discountPrice, discountRate } = product
   return (
     <div className="flex-none group my-10 mx-2 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">

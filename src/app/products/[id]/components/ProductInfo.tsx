@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react"
 import { addToCart } from "../actions"
 import { useRouter } from "next/navigation"
+import { Product } from "@prisma/client"
 
 type Props = {
     product: Product
@@ -85,13 +86,23 @@ export default function ProductInfo({ product }: Props) {
                         disabled={isPending} 
                         onClick={() => {
                             startTransition(async () => { 
-                                await addToCart(id, selectedColor, selectedSize)
+                                await addToCart(id, quantity, selectedColor, selectedSize)
                                 router.push('/cart')
                             })
-                        }}>Add to Cart</button>
+                        }}
+                        >Add to Cart</button>
                 </div>
                 <div className="w-full px-2 m-1">
-                    <button className="w-full bg-gray-400 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Buy Now</button>
+                    <button 
+                        className="w-full bg-gray-400 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600"
+                        disabled={isPending} 
+                        onClick={() => {
+                            startTransition(async () => { 
+                                await addToCart(id, quantity, selectedColor, selectedSize)
+                                router.push('/checkout')
+                            })
+                        }}
+                    >Buy Now</button>
                 </div>
             </div>
     </div>
