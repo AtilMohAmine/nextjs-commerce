@@ -9,6 +9,21 @@ type Props = {
     }
 }
 
+export async function generateMetadata({ params: { id }}: Props) {
+
+    const product = await prisma.product.findUnique({where: {id}})
+    if (!product) {
+        return {
+            title: 'Product Not Found'
+        }
+    }
+
+    return {
+        title: product.name,
+        description: product.desc
+    }
+}
+
 export default async function ProductPage({ params: { id }}: Props) {
     const product = await prisma.product.findUnique({where: {id}})
     if (!product) notFound()
