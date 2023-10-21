@@ -1,3 +1,4 @@
+import { searchProducts } from "@/lib/actions"
 import { getCart } from "@/lib/db/cart"
 import Link from "next/link"
 
@@ -24,11 +25,14 @@ export default async function Navbar() {
 
             <div className="md:flex items-center">
                 <div className="w-full">
-                    <input 
-                        type="text" 
-                        className="w-full rounded-md border border-[#DDE2E4] px-3 py-2 text-sm" 
-                        placeholder="Search..."
-                    />
+                    <form action={searchProducts}>
+                        <input 
+                            type="text" 
+                            name="query"
+                            className="w-full rounded-md border border-[#DDE2E4] px-3 py-2 text-sm" 
+                            placeholder="Search..."
+                        />
+                    </form>
                 </div>
                 
             <div className="flex flex-col md:flex-row md:mx-6">

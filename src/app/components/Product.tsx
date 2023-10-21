@@ -22,7 +22,7 @@ export default function ProductCard({ product }: Props) {
         </Link>
         <div className="mt-4 px-5 pb-5">
             <Link href={`/products/${id}`}>
-            <h5 className="text-xl tracking-tight text-slate-900">{name}</h5>
+            <h5 className="text-xl tracking-tight text-slate-900 truncate">{name}</h5>
             </Link>
             <div className="mt-2 mb-5 flex items-center justify-between">
             <p>
