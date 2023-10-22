@@ -8,14 +8,15 @@ datasource db {
 }
 
 model Product {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
   desc          String
   discountPrice Float?
   discountRate  Float?
   images        String[]
   name          String
   price         Float
-  type          String   @db.ObjectId
+  typeId        String        @db.ObjectId
+  type          productType   @relation(fields: [typeId], references: [id])
   colors        String[]
   sizes         String[]
   CartItem      CartItem[]
@@ -46,8 +47,9 @@ model CartItem {
 }
 
 model productType {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  products      Product[]
 
   @@map("productTypes")
 }
