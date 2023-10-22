@@ -25,7 +25,7 @@ export default function CartItem({ item }: Props) {
             <div>
             <div className="flex justify-between text-base font-medium text-gray-900">
                 <h3>
-                <Link href={`/products/${item.productId}`}>{item.product.name}</Link>
+                <Link href={`/products/details/${item.productId}`}>{item.product.name}</Link>
                 </h3>
                 <p className="ml-4">${item.product.discountPrice ? item.product.discountPrice : item.product.price}</p>
             </div>
