@@ -1,22 +1,31 @@
 import { prisma } from "@/lib/db/prisma"
 import { Product } from "@prisma/client"
 import ProductCard from "../components/Product"
+import PaginationBar from "../components/PaginationBar"
 
 type Props = {
     searchParams: {
-        query: string
+        query: string,
+        page: string
     }
 }
 
-export async function generateMetadata({ searchParams: { query }}: Props) {
+const itemsPerPage = 9
+
+export async function generateMetadata({ searchParams: { query, page = "1" }}: Props) {
+
+    const currentPage = parseInt(page)
 
     const products = await prisma.product.findMany({
+        skip: (currentPage - 1) * itemsPerPage,
+        take: itemsPerPage,
         where: {
             OR: [
                 { name: { contains: query, mode: "insensitive" } },
                 { desc: { contains: query, mode: "insensitive" } },
             ]
-        }, orderBy: {id: "desc"}
+        }, 
+        orderBy: {id: "desc"}
     })
 
     if(products.length === 0) {
@@ -30,14 +39,28 @@ export async function generateMetadata({ searchParams: { query }}: Props) {
     }
 }
 
-export default async function page({ searchParams: { query } }: Props) {
-    const products = await prisma.product.findMany({
+export default async function page({ searchParams: { query, page = "1" } }: Props) {
+    const totalItemCount = await prisma.product.count({
         where: {
             OR: [
                 { name: { contains: query, mode: "insensitive" } },
                 { desc: { contains: query, mode: "insensitive" } },
             ]
-        }, orderBy: {id: "desc"}
+        }
+    })
+    const totalPages = Math.ceil(totalItemCount / itemsPerPage)
+    const currentPage = parseInt(page)
+
+    const products = await prisma.product.findMany({
+        skip: (currentPage - 1) * itemsPerPage,
+        take: itemsPerPage,
+        where: {
+            OR: [
+                { name: { contains: query, mode: "insensitive" } },
+                { desc: { contains: query, mode: "insensitive" } },
+            ]
+        }, 
+        orderBy: {id: "desc"}
     })
 
     if(products.length === 0)
@@ -52,7 +75,7 @@ export default async function page({ searchParams: { query } }: Props) {
   return (
     <div>
         <h2 className="text-3xl font-extrabold dark:text-white">Results for {query}</h2>
-          <div className="flex flex-wrap items-start mb-8">
+        <div className="flex flex-wrap items-start mb-8">
             {
                 products.map((product: Product) => (
                     <ProductCard 
@@ -60,6 +83,9 @@ export default async function page({ searchParams: { query } }: Props) {
                         product={product}
                     />
             ))}
+        </div>
+        <div className="flex flex-col items-center">
+            <PaginationBar currentPage={currentPage} totalPages={totalPages} queryString={`query=${query}`} />
         </div>
     </div>
   )
