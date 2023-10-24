@@ -20,9 +20,7 @@ export default async function Cart() {
             : (
                 <div className="flex h-full flex-col bg-white">
                 <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                <div className="flex items-start justify-between">
-                    <h2 className="text-3xl font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
-                </div>
+                <h2 className="text-3xl font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
 
                 <div className="mt-12">
                     <div className="flow-root">
