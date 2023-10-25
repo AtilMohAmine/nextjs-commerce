@@ -29,6 +29,7 @@ model Cart {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   items         CartItem[]
+  order         Order?
 
   @@map("carts")
 }
@@ -52,4 +53,24 @@ model productType {
   products      Product[]
 
   @@map("productTypes")
+}
+
+model Order {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  email         String
+  firstName     String
+  lastName      String
+  address       String
+  city          String
+  country       String
+  province      String
+  postalCode    String
+  phone         String
+  cartId        String   @db.ObjectId @unique
+  cart          Cart     @relation(fields: [cartId], references: [id])
+  status        String
+  
+  @@map("orders")
 }
