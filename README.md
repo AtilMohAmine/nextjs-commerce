@@ -1,6 +1,11 @@
-# Next.js Commerce - E-Commerce App
+# Next.js Commerce
 
 Next.js Commerce is a modern and flexible e-commerce application built with Next.js 13, App Router, Tailwind CSS, Prisma, and MongoDB. This project provides a solid foundation for creating your own e-commerce website.
+
+<br />
+<p align="center">
+   <img src="https://github.com/AtilMohAmine/nextjs-commerce/assets/86023602/c148c635-19fe-407f-9cca-d146f77c212b">
+</p>
 
 ## Features
 
@@ -67,4 +72,4 @@ Contributions to this project are welcome! If you have any suggestions, feature 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/AtilMohAmine/nextjs-commerce/blob/main/LICENSE) file for details.
