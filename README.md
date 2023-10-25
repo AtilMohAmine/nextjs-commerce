@@ -10,7 +10,7 @@ Next.js Commerce is a modern and flexible e-commerce application built with Next
 ## Features
 
 - **SEO-ready:** Next.js is also SEO-friendly, so your e-commerce site will rank well in search engine results pages (SERPs).
-Internationalization:** Next.js makes it easy to internationalize your e-commerce site, so you can sell to customers all over the world.
+- **Internationalization:** Next.js makes it easy to internationalize your e-commerce site, so you can sell to customers all over the world.
 - **Responsive:** Next.js apps are responsive by default, so they look great on all devices, from phones to tablets to desktop computers.
 - **UI components:** This app includes a variety of pre-built UI components, such as product cards, shopping carts, and checkout forms, to make it easy to get started with your e-commerce site.
 
