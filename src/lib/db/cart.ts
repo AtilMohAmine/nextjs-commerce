@@ -53,3 +53,20 @@ export async function createCart(): Promise<ShoppingCart> {
     subtotal: 0,
   };
 }
+
+export async function deleteCart() {
+
+  const cart = await getCart()
+
+  if(cart == null)
+    return
+
+  const newCart = await prisma.cart.deleteMany({
+    where: {id: cart.id},
+  });
+  
+  cookies().delete("localCartId")
+}
+
+
+

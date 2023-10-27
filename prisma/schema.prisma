@@ -57,6 +57,7 @@ model productType {
 
 model Order {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId       String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   email         String

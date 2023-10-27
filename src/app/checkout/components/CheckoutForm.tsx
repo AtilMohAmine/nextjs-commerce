@@ -1,9 +1,14 @@
 'use client'
 
-import React, { ChangeEvent, useRef, useState, useTransition } from 'react'
+import React, { useRef } from 'react'
 import Bill from './Bill'
-import { useRouter } from "next/navigation"
-import { checkout } from '../actions'
+import {
+    PayPalScriptProvider,
+    PayPalButtons,
+    FUNDING,
+  } from '@paypal/react-paypal-js'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     subTotal: number,
@@ -11,26 +16,52 @@ type Props = {
 }
 
 
-export default function CheckoutForm({ subTotal, shipping }: Props) {
+export default function POST({ subTotal, shipping }: Props) {
 
+    const emailInput = useRef()
+    const firstNameInput = useRef()
+    const lastNameInput = useRef()
+    const addressInput = useRef()
+    const cityInput = useRef()
+    const countryInput = useRef()
+    const provinceInput = useRef()
+    const postalCodeInput = useRef()
+    const phoneInput = useRef()
     const router = useRouter()
-    const [isPending, startTransition] = useTransition()
 
-    const [ paymentMethod, setPaymentMethod ] = useState('paypal')
+    const paypalCreateOrder = async () => {
+        
+        try {
+          let response = await axios.post('/api/paypal/createorder', {
+            email: emailInput.current.value,
+            firstName: firstNameInput.current.value,
+            lastName: lastNameInput.current.value,
+            address: addressInput.current.value,
+            city: cityInput.current.value,
+            country: countryInput.current.value,
+            province: provinceInput.current.value,
+            postalCode: postalCodeInput.current.value,
+            phone: phoneInput.current.value
+          })
+          return response.data.orderId
+        } catch (err) {
+          return null
+        }
+      }
 
-    const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-        setPaymentMethod(e.target.name)
-    }
-
-    const emailInput = useRef();
-    const firstNameInput = useRef();
-    const lastNameInput = useRef();
-    const addressInput = useRef();
-    const cityInput = useRef();
-    const countryInput = useRef();
-    const provinceInput = useRef();
-    const postalCodeInput = useRef();
-    const phoneInput = useRef();
+    const paypalCaptureOrder = async orderId => {
+        try {
+          let response = await axios.post('/api/paypal/captureorder', {
+            orderId
+          })
+          if (response.data.success) {
+            router.push('/')
+          }
+        
+        } catch (err) {
+            return null
+        }
+      }
     
   return (
     <>
@@ -107,10 +138,7 @@ export default function CheckoutForm({ subTotal, shipping }: Props) {
             <div className="w-full mx-auto rounded-lg bg-white border border-gray-200 text-gray-800 font-light mb-6">
                 <div className="w-full p-3 border-b border-gray-200">
                     <div className="mb-5">
-                        <label htmlFor="type1" className="flex items-center cursor-pointer">
-                            <input type="radio" className="form-radio h-5 w-5 text-indigo-500" name="card" id="type1" onChange={handleChange} checked={paymentMethod === 'card'} />
-                            <img src="/cards.png" className="h-6 ml-3" />
-                        </label>
+                            <img src="/cards.png" className="h-6 ml-1" />
                     </div>
                     <div>
                         <div className="mb-3">
@@ -166,33 +194,59 @@ export default function CheckoutForm({ subTotal, shipping }: Props) {
                                 </div>
                             </div>
                         </div>
+                        <button 
+                                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full"
+                                onClick={() => {
+                                    startTransition(async () => { 
+                                        await checkout(
+                                            emailInput.current.value,
+                                            firstNameInput.current.value,
+                                            lastNameInput.current.value,
+                                            addressInput.current.value,
+                                            cityInput.current.value,
+                                            countryInput.current.value,
+                                            provinceInput.current.value,
+                                            postalCodeInput.current.value,
+                                            phoneInput.current.value
+                                        )
+                                    })
+                                }}>
+                            Pay Now
+                        </button>
                     </div>
                 </div>
                 <div className="w-full p-3">
-                    <label htmlFor="type2" className="flex items-center cursor-pointer">
-                        <input type="radio" className="form-radio h-5 w-5 text-indigo-500" name="paypal" id="type2" onChange={handleChange} checked={paymentMethod === 'paypal'} />
-                        <img src="/PayPal.svg" width="80" className="ml-3" />
-                    </label>
+                <PayPalScriptProvider
+                    options={{
+                        clientId: 'AUujoh1ioCKrbB0CoRBn7_gfYBJKvKsJiwdGirVHZQ-KtOuNDbRHREAWP-5LS7EUWLiUlPDjTaBMwpnt'
+                    }}
+                >
+                    <PayPalButtons
+                        style={{
+                            color: 'blue',
+                            shape: 'rect',
+                            label: 'pay',
+                            height: 50,
+                        }}
+                        fundingSource={FUNDING.PAYPAL}
+                        createOrder={async (data, actions) => {
+                            let order_id = await paypalCreateOrder()
+                            return order_id + ''
+                          }}
+                        onApprove={async (data, actions) => {
+                            let response = await paypalCaptureOrder(data.orderID)
+                            if (response) return true
+                        }}
+                    />
+                </PayPalScriptProvider>
                 </div>
             </div>
-            <button 
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full"
-                onClick={() => {
-                    startTransition(async () => { 
-                        await checkout(
-                            emailInput.current.value,
-                            firstNameInput.current.value,
-                            lastNameInput.current.value,
-                            addressInput.current.value,
-                            cityInput.current.value,
-                            countryInput.current.value,
-                            provinceInput.current.value,
-                            postalCodeInput.current.value,
-                            phoneInput.current.value
-                          )
-                    })
-                }}>Pay Now</button>
+            
         </div>
     </>
   )
 }
+function useMutation<T, U, V, W>(arg0: () => any) {
+    throw new Error('Function not implemented.')
+}
+
