@@ -55,7 +55,7 @@ export default function POST({ subTotal, shipping }: Props) {
             orderId
           })
           if (response.data.success) {
-            router.push('/')
+            router.push('/payment-success')
           }
         
         } catch (err) {

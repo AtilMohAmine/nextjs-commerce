@@ -60,22 +60,37 @@ export async function POST(
               })
           }
                 
-          await prisma.Order.create({
-              data: {
-                  orderId: response.result.id,
-                  email: email,       
-                  firstName: firstName,    
-                  lastName: lastName,
-                  address: address,    
-                  city: city,         
-                  country: country,      
-                  province: province,     
-                  postalCode: postalCode,   
-                  phone: phone,
-                  cartId: cart.id,
-                  status: 'pending'          
-              }
-          })
+          await prisma.order.upsert({
+            where: {
+              cartId: cart.id,
+            },
+            create: {
+              orderId: response.result.id,
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              address: address,
+              city: city,
+              country: country,
+              province: province,
+              postalCode: postalCode,
+              phone: phone,
+              cartId: cart.id,
+              status: 'pending',
+            },
+            update: {
+              orderId: response.result.id,
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              address: address,
+              city: city,
+              country: country,
+              province: province,
+              postalCode: postalCode,
+              phone: phone,
+            }
+          });
       
           return NextResponse.json({success: true, orderId: response.result.id}, {
             status: 200,

@@ -24,18 +24,29 @@ export async function getCart(): Promise<ShoppingCart | null> {
     return null;
   }
 
-  return {
-    ...cart,
-    size: cart.items.reduce((acc, item) => acc + item.quantity, 0),
-    subtotal: cart.items.reduce(
-      (acc, item) => {
-        if(item.product.discountPrice)
-          return acc + item.quantity * item.product.discountPrice
-        return acc + item.quantity * item.product.price
-      },
-      0
-    ),
-  };
+  const cartInOrder = await prisma.order.findUnique({
+        where: { 
+          cartId: cart.id,
+          status: 'paid'
+         },
+      })
+
+  
+  if(!cartInOrder)
+    return {
+      ...cart,
+      size: cart.items.reduce((acc, item) => acc + item.quantity, 0),
+      subtotal: cart.items.reduce(
+        (acc, item) => {
+          if(item.product.discountPrice)
+            return acc + item.quantity * item.product.discountPrice
+          return acc + item.quantity * item.product.price
+        },
+        0
+      ),
+    };
+  else
+    return null
 }
 
 export async function createCart(): Promise<ShoppingCart> {

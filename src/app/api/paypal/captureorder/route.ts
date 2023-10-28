@@ -4,7 +4,6 @@ import client from '@/lib/paypal/client'
 import paypal from '@paypal/checkout-server-sdk'
 import { prisma } from '@/lib/db/prisma'
 import { NextResponse } from 'next/server'
-import { deleteCart } from '@/lib/db/cart'
 
 export async function POST(
   req: Request
@@ -26,7 +25,7 @@ export async function POST(
     })
   }
 
-  await prisma.Order.updateMany({
+  await prisma.order.updateMany({
     where: {
       orderId,
     },
