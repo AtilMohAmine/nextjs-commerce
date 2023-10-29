@@ -11,12 +11,13 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
 type Props = {
+    paypalClientId: string,
     subTotal: number,
     shipping: number
 }
 
 
-export default function POST({ subTotal, shipping }: Props) {
+export default function POST({ paypalClientId, subTotal, shipping }: Props) {
 
     const emailInput = useRef()
     const firstNameInput = useRef()
@@ -55,6 +56,7 @@ export default function POST({ subTotal, shipping }: Props) {
             orderId
           })
           if (response.data.success) {
+            router.refresh()
             router.push('/payment-success')
           }
         
@@ -218,7 +220,7 @@ export default function POST({ subTotal, shipping }: Props) {
                 <div className="w-full p-3">
                 <PayPalScriptProvider
                     options={{
-                        clientId: 'AUujoh1ioCKrbB0CoRBn7_gfYBJKvKsJiwdGirVHZQ-KtOuNDbRHREAWP-5LS7EUWLiUlPDjTaBMwpnt'
+                        clientId: paypalClientId
                     }}
                 >
                     <PayPalButtons
