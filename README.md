@@ -39,6 +39,8 @@ Follow these steps to set up and run the Next.js Commerce app on your local deve
 
    ```plaintext
    DATABASE_URL=your-mongodb-connection-string
+   PAYPAL_CLIENT_ID=your-paypal-client-id
+   PAYPAL_CLIENT_SECRET=your-paypal-client-secret
    ```
 
 4. **Database Migration:**
