@@ -64,6 +64,39 @@ Follow these steps to set up and run the Next.js Commerce app on your local deve
 
    Open your web browser and navigate to [http://localhost:3000](http://localhost:3000) to access the Next.js Commerce app.
 
+## Docker
+
+If you prefer to run the Next.js Commerce app using Docker, follow these additional steps:
+
+1. **Build Docker Image:**
+
+   Before building the Docker image, open the `Dockerfile` in the project root and ensure the environment variables are set correctly. Update the following section with your MongoDB connection string, PayPal client ID, and PayPal client secret:
+
+   ```Dockerfile
+   # Set environment variables
+   ENV DATABASE_URL=your-mongodb-connection-string \
+       PAYPAL_CLIENT_ID=your-paypal-client-id \
+       PAYPAL_CLIENT_SECRET=your-paypal-client-secret
+   ```
+
+   Replace your-mongodb-connection-string, your-paypal-client-id, and your-paypal-client-secret with your actual MongoDB connection string and PayPal API credentials.
+
+   Once updated, build the Docker image.
+
+   ```bash
+   docker build -t nextjs-commerce .
+   ```
+
+2. **Run Docker Container:**
+
+   ```bash
+   docker run -e NODE_ENV=production -p 3000:3000 nextjs-commerce
+   ```
+
+2. **Access the Application:**
+
+   Open your web browser and navigate to [http://localhost:3000](http://localhost:3000) to access the Next.js Commerce app.
+
 ## Deployment
 
 To deploy the Next.js Commerce app, follow the deployment guidelines for your chosen hosting platform. Some popular options include Vercel, Netlify, and AWS.
