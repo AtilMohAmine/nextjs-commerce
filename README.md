@@ -5,6 +5,7 @@
 ![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=nextjs-commerce)
 
 </div>
+
 Next.js Commerce is a modern and flexible e-commerce application built with Next.js 13, App Router, Tailwind CSS, Prisma, and MongoDB. This project provides a solid foundation for creating your own e-commerce website.
 
 <br />
